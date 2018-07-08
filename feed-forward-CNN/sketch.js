@@ -15,10 +15,12 @@ const configOutput = {
     units: 3,
     activation : 'sigmoid'
 }
+const learningRate = 0.5
+const optimizer = tf.train.sgd(learningRate);
 
 //config options for compiling the model
 const config = {
-    optimizer : 'sgd',
+    optimizer : optimizer,
     loss : 'meanSquaredError'
 }
 
@@ -34,6 +36,15 @@ const output = tf.layers.dense(configOutput);
 
 //add the layers to the model
 model.add(hidden);
-model.add(output);
+model.add(output); 
+
+//once configuration is done, compile the model
 model.compile(config);
- 
+
+train().then(() => {
+    let output = model.predict(xs);
+    output.print();
+    console.log("training completed") 
+});
+
+
